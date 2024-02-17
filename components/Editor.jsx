@@ -24,10 +24,10 @@ export default function Editor() {
         gutterForeground: "#f1f5f9",
     }
 
-    const [htmlValue, setHtmlValue] = useState(localStorage.getItem('sessoinHTML') || `<div class="demo">
+    const [htmlValue, setHtmlValue] = useState(`<div class="demo">
   <h1>Hello World</h1>
 </div>`);
-    const [cssValue, setCssValue] = useState(localStorage.getItem('sessionCSS') || `.demo{
+    const [cssValue, setCssValue] = useState(`.demo{
     background:#525fe1;
     color:#000;
     font-family:system-ui,-apple-system;
@@ -38,7 +38,7 @@ export default function Editor() {
     align-items:center;
     justify-content:center;
   }`);
-    const [jsValue, setJsValue] = useState(localStorage.getItem('sessionJS') || `console.log("Hello World")`);
+    const [jsValue, setJsValue] = useState(`console.log("Hello World")`);
 
     const iframeRef = useRef();
 
@@ -58,7 +58,7 @@ export default function Editor() {
                                 gutterBackground: "hsl(222.2 84% 4.9%)",
                                 gutterForeground: "#f1f5f9",
                             }
-                        })} value={htmlValue} onChange={(val, viewUpdate) => { setHtmlValue(val); localStorage.setItem("sessoinHTML", val) }} extensions={[html()]} />
+                        })} value={htmlValue} onChange={(val, viewUpdate) => { setHtmlValue(val); }} extensions={[html()]} />
                     </ResizablePanel>
                     <ResizableHandle withHandle />
                     <ResizablePanel defaultSize={32}>
@@ -73,7 +73,7 @@ export default function Editor() {
                                 gutterBackground: "hsl(222.2 84% 4.9%)",
                                 gutterForeground: "#f1f5f9",
                             }
-                        })} value={cssValue} onChange={(val, viewUpdate) => { setCssValue(val); localStorage.setItem("sessoinCSS", val) }} extensions={[css()]} />
+                        })} value={cssValue} onChange={(val, viewUpdate) => { setCssValue(val); }} extensions={[css()]} />
                     </ResizablePanel>
                     <ResizableHandle withHandle />
                     <ResizablePanel defaultSize={32}>
@@ -88,7 +88,7 @@ export default function Editor() {
                                 gutterBackground: "hsl(222.2 84% 4.9%)",
                                 gutterForeground: "#f1f5f9",
                             }
-                        })} value={jsValue} onChange={(val, viewUpdate) => { setJsValue(val); localStorage.setItem("sessoinJS", val) }} extensions={[javascript({ jsx: true })]} />
+                        })} value={jsValue} onChange={(val, viewUpdate) => { setJsValue(val); }} extensions={[javascript({ jsx: true })]} />
                     </ResizablePanel>
                 </ResizablePanelGroup>
             </ResizablePanel>
@@ -109,7 +109,7 @@ export default function Editor() {
           </html>
           `} />
             </ResizablePanel>
-            <Footer onClear={() => { setHtmlValue("<!-- Write HTML -->"); setCssValue("/* Write CSS */"); setJsValue("// Write JavaScript"); localStorage.clear(); }} />
+            <Footer onClear={() => { setHtmlValue("<!-- Write HTML -->"); setCssValue("/* Write CSS */"); setJsValue("// Write JavaScript"); }} />
         </ResizablePanelGroup>
     )
 };
