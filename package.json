@@ -9,9 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@codemirror/lang-css": "^6.2.1",
+    "@codemirror/lang-html": "^6.4.8",
+    "@codemirror/lang-javascript": "^6.2.1",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@uiw/codemirror-theme-vscode": "^4.21.21",
+    "@uiw/react-codemirror": "^4.21.21",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "lucide-react": "^0.331.0",
+    "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.1.0"
+    "react-resizable-panels": "^2.0.9",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
