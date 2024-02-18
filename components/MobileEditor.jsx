@@ -13,8 +13,11 @@ import { vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
 import Footer from '@/components/Footer';
 import { Button } from './ui/button';
 import { Check, Loader2, Save } from 'lucide-react';
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { toast } from 'sonner';
 
-export default function Editor() {
+
+export default function MobileEditor() {
     const darkTheme = {
         background: "hsl(222.2 84% 4.9%)",
         foreground: "#f1f5f9",
@@ -29,6 +32,8 @@ export default function Editor() {
     const [htmlValue, setHtmlValue] = useState(``);
     const [cssValue, setCssValue] = useState(``);
     const [jsValue, setJsValue] = useState(``);
+
+    const [currTab, setCurrTab] = useState("html");
 
     const handleDownload = () => {
         const blob = new Blob([srcDocsT], { type: 'text/html' });
@@ -66,35 +71,38 @@ export default function Editor() {
 
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
-            <ResizablePanel defaultSize={70}>
-                <ResizablePanelGroup direction="horizontal">
-                    <ResizablePanel defaultSize={32}>
-                        <CodeMirror className='codeScrollbar' maxHeight='100vh' minHeight='400px' height='100%' theme={vscodeDarkInit({
-                            settings: darkTheme
-                        })} value={htmlValue} placeholder="HTML" onChange={(val, viewUpdate) => { setHtmlValue(val); }} extensions={[html()]} />
-                    </ResizablePanel>
-                    <ResizableHandle withHandle />
-                    <ResizablePanel defaultSize={32}>
-                        <CodeMirror className='codeScrollbar' maxHeight='100vh' minHeight='400px' height='100%' theme={vscodeDarkInit({
-                            settings: darkTheme
-                        })} value={cssValue} placeholder="CSS" onChange={(val, viewUpdate) => { setCssValue(val); }} extensions={[css()]} />
-                    </ResizablePanel>
-                    <ResizableHandle withHandle />
-                    <ResizablePanel defaultSize={32}>
-                        <CodeMirror className='codeScrollbar' maxHeight='100vh' minHeight='400px' height='100%' theme={vscodeDarkInit({
-                            settings: darkTheme
-                        })} value={jsValue} placeholder="JavaScript" onChange={(val, viewUpdate) => { setJsValue(val); }} extensions={[javascript({ jsx: true })]} />
-                    </ResizablePanel>
-                </ResizablePanelGroup>
+            <div className="flex py-2 px-3 md:px-20 items-center justify-between">
+                <ToggleGroup size="sm" type="single" defaultValue="html" onValueChange={setCurrTab}>
+                    <ToggleGroupItem value="html">HTML</ToggleGroupItem>
+                    <ToggleGroupItem value="css">CSS</ToggleGroupItem>
+                    <ToggleGroupItem value="javascript">JavaScript</ToggleGroupItem>
+                </ToggleGroup>
+                <div>
+                    <Button size="icon" variant="secondary">{!isCompiled ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}</Button>
+                </div>
+            </div>
+            <ResizablePanel defaultSize={80}>
+                {currTab == "html" ? (
+                    <CodeMirror className='codeScrollbar' maxHeight='100vh' minHeight='400px' height='100%' theme={vscodeDarkInit({
+                        settings: darkTheme
+                    })} value={htmlValue} placeholder="HTML" onChange={(val, viewUpdate) => { setHtmlValue(val); }} extensions={[html()]} />
+                ) : currTab == "css" ? (
+                    <CodeMirror className='codeScrollbar' maxHeight='100vh' minHeight='400px' height='100%' theme={vscodeDarkInit({
+                        settings: darkTheme
+                    })} value={cssValue} placeholder="CSS" onChange={(val, viewUpdate) => { setCssValue(val); }} extensions={[css()]} />
+                ) : (
+                    <CodeMirror className='codeScrollbar' maxHeight='100vh' minHeight='400px' height='100%' theme={vscodeDarkInit({
+                        settings: darkTheme
+                    })} value={jsValue} placeholder="JavaScript" onChange={(val, viewUpdate) => { setJsValue(val); }} extensions={[javascript({ jsx: true })]} />
+                )}
             </ResizablePanel>
 
             <ResizableHandle withHandle />
 
-            <ResizablePanel defaultSize={30} className='p-0 m-0'>
+            <ResizablePanel defaultSize={20} className='p-0 m-0'>
                 <iframe className={'h-full w-full p-0 m-0 bg-white'} srcDoc={srcDocsT} />
             </ResizablePanel>
             <Footer onClear={() => { setHtmlValue(""); setCssValue(""); setJsValue(""); }} >
-                <Button size="icon" variant="secondary">{!isCompiled ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}</Button>
                 <Button size="icon" variant="secondary" onClick={handleDownload}><Save className="h-4 w-4" /></Button>
             </Footer>
         </ResizablePanelGroup>
