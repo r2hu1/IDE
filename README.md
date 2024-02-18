@@ -2,7 +2,7 @@
 
 A lightweight and minimalistic html, css, and javascript editor and compiler built using nextjs, tailwindcss and shadcn-ui. (codepen clone)
 
-[![Demo Video](/public/blank-demo.png)](/public/demo-video.mp4)
+<iframe width="560" height="315" src="/public/demo-video.mp4" frameborder="0" allowfullscreen></iframe>
 
 ## Features
 
