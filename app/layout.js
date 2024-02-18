@@ -6,6 +6,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "IDE",
   description: "Online html, css, and javascript editor and compiler.",
+  icons: {
+    icon:"/logo.png"
+  },
+  manifest: "/manifest.json",
 };
 
 export const viewport = {
