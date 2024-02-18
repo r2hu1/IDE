@@ -1,9 +1,15 @@
 import Editor from "@/components/Editor";
+import MobileEditor from "@/components/MobileEditor";
 
 export default function Page() {
-  return(
+  return (
     <div>
-      <Editor/>
+      <div className="hidden sm:flex">
+        <Editor />
+      </div>
+      <div className="sm:hidden flex">
+        <MobileEditor />
+      </div>
     </div>
   )
 };
