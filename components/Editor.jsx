@@ -24,17 +24,8 @@ export default function Editor() {
         gutterForeground: "#f1f5f9",
     }
 
-    const [htmlValue, setHtmlValue] = useState(`<div class="demo">
-  <h1>Hello World</h1>
-</div>`);
-    const [cssValue, setCssValue] = useState(`body{
-    background:#525fe1;
-    color:#000;
-    font-family:system-ui,-apple-system;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }`);
+    const [htmlValue, setHtmlValue] = useState(``);
+    const [cssValue, setCssValue] = useState(``);
     const [jsValue, setJsValue] = useState(``);
 
     const iframeRef = useRef();
@@ -55,7 +46,7 @@ export default function Editor() {
                                 gutterBackground: "hsl(222.2 84% 4.9%)",
                                 gutterForeground: "#f1f5f9",
                             }
-                        })} value={htmlValue} placeholder="Write html" onChange={(val, viewUpdate) => { setHtmlValue(val); }} extensions={[html()]} />
+                        })} value={htmlValue} placeholder="HTML" onChange={(val, viewUpdate) => { setHtmlValue(val); }} extensions={[html()]} />
                     </ResizablePanel>
                     <ResizableHandle withHandle />
                     <ResizablePanel defaultSize={32}>
@@ -70,7 +61,7 @@ export default function Editor() {
                                 gutterBackground: "hsl(222.2 84% 4.9%)",
                                 gutterForeground: "#f1f5f9",
                             }
-                        })} value={cssValue} placeholder="Write css" onChange={(val, viewUpdate) => { setCssValue(val); }} extensions={[css()]} />
+                        })} value={cssValue} placeholder="CSS" onChange={(val, viewUpdate) => { setCssValue(val); }} extensions={[css()]} />
                     </ResizablePanel>
                     <ResizableHandle withHandle />
                     <ResizablePanel defaultSize={32}>
@@ -85,7 +76,7 @@ export default function Editor() {
                                 gutterBackground: "hsl(222.2 84% 4.9%)",
                                 gutterForeground: "#f1f5f9",
                             }
-                        })} value={jsValue} placeholder="Write javascript" onChange={(val, viewUpdate) => { setJsValue(val); }} extensions={[javascript({ jsx: true })]} />
+                        })} value={jsValue} placeholder="JavaScript" onChange={(val, viewUpdate) => { setJsValue(val); }} extensions={[javascript({ jsx: true })]} />
                     </ResizablePanel>
                 </ResizablePanelGroup>
             </ResizablePanel>
@@ -93,7 +84,7 @@ export default function Editor() {
             <ResizableHandle withHandle />
 
             <ResizablePanel defaultSize={30} className='p-0 m-0'>
-                <iframe ref={iframeRef} className={'h-full w-full p-0 m-0'} srcDoc={`
+                <iframe ref={iframeRef} className={'h-full w-full p-0 m-0 bg-white'} srcDoc={`
           <!DOCTYPE html>
           <html lang="en">
             <head>
