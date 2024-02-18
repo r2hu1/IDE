@@ -7,7 +7,7 @@ export const metadata = {
   title: "IDE",
   description: "Online html, css, and javascript editor and compiler.",
   icons: {
-    icon:"/logo.png"
+    icon: "/logo.png"
   },
   manifest: "/manifest.json",
 };
