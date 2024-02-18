@@ -92,7 +92,7 @@ export default function MobileEditor() {
                     <Button size="icon" variant="secondary">{!isCompiled ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}</Button>
                 </div>
             </div>
-            <ResizablePanel defaultSize={80}>
+            <ResizablePanel defaultSize={60}>
                 {currTab == "html" ? (
                     <CodeMirror className='codeScrollbar' maxHeight='100vh' minHeight='400px' height='100%' theme={vscodeDarkInit({
                         settings: darkTheme
@@ -110,7 +110,7 @@ export default function MobileEditor() {
 
             <ResizableHandle withHandle />
 
-            <ResizablePanel defaultSize={20} className='p-0 m-0'>
+            <ResizablePanel defaultSize={40} className='p-0 m-0'>
                 <iframe className={'h-full w-full p-0 m-0 bg-white'} srcDoc={srcDocsT} />
             </ResizablePanel>
             <Footer onClear={() => { setHtmlValue(""); setCssValue(""); setJsValue(""); setSrcDocs(""); }} >
