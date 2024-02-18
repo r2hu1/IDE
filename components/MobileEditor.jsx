@@ -29,10 +29,21 @@ export default function MobileEditor() {
         gutterForeground: "#f1f5f9",
     };
 
-    const [htmlValue, setHtmlValue] = useState(``);
-    const [cssValue, setCssValue] = useState(``);
-    const [jsValue, setJsValue] = useState(``);
-
+    const [htmlValue, setHtmlValue] = useState(`<button onClick="handleClick()">
+  Click Me
+</button>`);
+    const [cssValue, setCssValue] = useState(`button{
+  height:45px;
+  border:none;
+  padding: 0 30px;
+  border-radius:8px;
+  margin: 10px;
+  color:#fff;
+  background:#525fe1;
+}`);
+    const [jsValue, setJsValue] = useState(`const handleClick = () => {
+  alert("button clicked");
+}`);
     const [currTab, setCurrTab] = useState("html");
 
     const handleDownload = () => {
@@ -66,7 +77,7 @@ export default function MobileEditor() {
             </html>
             `);
             setIsCompiled(true);
-        }, 1500);
+        }, 1000);
     }, [htmlValue, cssValue, jsValue]);
 
     return (
