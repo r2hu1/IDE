@@ -66,7 +66,7 @@ export default function MobileEditor() {
             </html>
             `);
             setIsCompiled(true);
-        }, 1000);
+        }, 1500);
     }, [htmlValue, cssValue, jsValue]);
 
     return (
@@ -102,7 +102,7 @@ export default function MobileEditor() {
             <ResizablePanel defaultSize={20} className='p-0 m-0'>
                 <iframe className={'h-full w-full p-0 m-0 bg-white'} srcDoc={srcDocsT} />
             </ResizablePanel>
-            <Footer onClear={() => { setHtmlValue(""); setCssValue(""); setJsValue(""); }} >
+            <Footer onClear={() => { setHtmlValue(""); setCssValue(""); setJsValue(""); setSrcDocs(""); }} >
                 <Button size="icon" variant="secondary" onClick={handleDownload}><Save className="h-4 w-4" /></Button>
             </Footer>
         </ResizablePanelGroup>
