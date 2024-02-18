@@ -9,7 +9,7 @@ import {
     ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { useRef, useState } from 'react';
-import { vscodeDark, vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
+import { vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
 import Footer from '@/components/Footer';
 
 export default function Editor() {
@@ -27,18 +27,15 @@ export default function Editor() {
     const [htmlValue, setHtmlValue] = useState(`<div class="demo">
   <h1>Hello World</h1>
 </div>`);
-    const [cssValue, setCssValue] = useState(`.demo{
+    const [cssValue, setCssValue] = useState(`body{
     background:#525fe1;
     color:#000;
     font-family:system-ui,-apple-system;
-    height:100px;
-    padding:0px 40px;
-    border-radius:10px;
     display:flex;
     align-items:center;
     justify-content:center;
   }`);
-    const [jsValue, setJsValue] = useState(`console.log("Hello World")`);
+    const [jsValue, setJsValue] = useState(``);
 
     const iframeRef = useRef();
 
@@ -58,7 +55,7 @@ export default function Editor() {
                                 gutterBackground: "hsl(222.2 84% 4.9%)",
                                 gutterForeground: "#f1f5f9",
                             }
-                        })} value={htmlValue} onChange={(val, viewUpdate) => { setHtmlValue(val); }} extensions={[html()]} />
+                        })} value={htmlValue} placeholder="Write html" onChange={(val, viewUpdate) => { setHtmlValue(val); }} extensions={[html()]} />
                     </ResizablePanel>
                     <ResizableHandle withHandle />
                     <ResizablePanel defaultSize={32}>
@@ -73,7 +70,7 @@ export default function Editor() {
                                 gutterBackground: "hsl(222.2 84% 4.9%)",
                                 gutterForeground: "#f1f5f9",
                             }
-                        })} value={cssValue} onChange={(val, viewUpdate) => { setCssValue(val); }} extensions={[css()]} />
+                        })} value={cssValue} placeholder="Write css" onChange={(val, viewUpdate) => { setCssValue(val); }} extensions={[css()]} />
                     </ResizablePanel>
                     <ResizableHandle withHandle />
                     <ResizablePanel defaultSize={32}>
@@ -88,7 +85,7 @@ export default function Editor() {
                                 gutterBackground: "hsl(222.2 84% 4.9%)",
                                 gutterForeground: "#f1f5f9",
                             }
-                        })} value={jsValue} onChange={(val, viewUpdate) => { setJsValue(val); }} extensions={[javascript({ jsx: true })]} />
+                        })} value={jsValue} placeholder="Write javascript" onChange={(val, viewUpdate) => { setJsValue(val); }} extensions={[javascript({ jsx: true })]} />
                     </ResizablePanel>
                 </ResizablePanelGroup>
             </ResizablePanel>
@@ -109,7 +106,7 @@ export default function Editor() {
           </html>
           `} />
             </ResizablePanel>
-            <Footer onClear={() => { setHtmlValue("<!-- Write HTML -->"); setCssValue("/* Write CSS */"); setJsValue("// Write JavaScript"); }} />
+            <Footer onClear={() => { setHtmlValue(""); setCssValue(""); setJsValue(""); }} />
         </ResizablePanelGroup>
     )
 };
