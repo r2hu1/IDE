@@ -53,7 +53,7 @@ export default function Editor() {
             <html lang="en">
               <head>
               </head>
-              <style>${cssValue}</style>
+              <style>*{margin:0;padding:0;box-sizing:border-box;}${cssValue}</style>
               <body>
               <div>${htmlValue}</div>
               <script>${jsValue}</script>
