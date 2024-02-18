@@ -11,9 +11,9 @@ A lightweight and minimalistic html, css, and javascript editor and compiler bui
 
 ## Demo
 
-![non-code](/public/blank-demo.png)
+![non-code](/public/pc-demo.png)
 
-![non-code](/public/demo-with-code.png)
+![non-code](/public/mobile-demo.png)
 
 ## Contributing
 
