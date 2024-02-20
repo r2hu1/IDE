@@ -19,10 +19,10 @@ export default function Editor() {
         background: "hsl(224 71.4% 4.1%)",
         foreground: "#f1f5f9",
         caret: "#f87171",
-        selection: "#f87171",
+        selection: "hsl(215 27.9% 16.9%)",
         selectionMatch: "#f87171",
-        lineHighlight: "hsl(0, 0%, 100% / .1)",
-        gutterBackground: "hsl(224 71.4% 4.1%)",
+        lineHighlight: "transparent",
+        gutterBackground: "hsl(222.2 84% 4.9%)",
         gutterForeground: "#f1f5f9",
     };
 
@@ -41,7 +41,7 @@ export default function Editor() {
     const [jsValue, setJsValue] = useState(`const handleClick = () => {
   alert("button clicked");
 }`);
-    
+
     const handleDownload = () => {
         const blob = new Blob([srcDocsT], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
