@@ -1,9 +1,10 @@
 "use client"
 
-import { GripVertical } from "lucide-react"
+import { Fullscreen, GripVertical } from "lucide-react"
 import * as ResizablePrimitive from "react-resizable-panels"
 
 import { cn } from "@/lib/utils"
+import { Button } from "./button"
 
 const ResizablePanelGroup = ({
   className,
@@ -32,8 +33,8 @@ const ResizableHandle = ({
     {...props}>
     {withHandle && (
       <div
-        className="z-10 flex h-4 w-3 items-center justify-center rounded-sm border bg-border">
-        <GripVertical className="h-2.5 w-2.5" />
+        className="z-10 flex h-4 w-3 items-center justify-center rounded-sm border bg-border transition hover:scale-110">
+        <GripVertical className="h-2.5 w-2.5 transition" />
       </div>
     )}
   </ResizablePrimitive.PanelResizeHandle>
