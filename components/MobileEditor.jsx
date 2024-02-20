@@ -19,7 +19,7 @@ import { toast } from 'sonner';
 
 export default function MobileEditor() {
     const darkTheme = {
-        background: "hsl(222.2 84% 4.9%)",
+        background: "hsl(224 71.4% 4.1%)",
         foreground: "#f1f5f9",
         caret: "#f87171",
         selection: "#f87171",

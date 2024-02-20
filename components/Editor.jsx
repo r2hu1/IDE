@@ -16,13 +16,13 @@ import { Check, Loader2, Save } from 'lucide-react';
 
 export default function Editor() {
     const darkTheme = {
-        background: "hsl(222.2 84% 4.9%)",
+        background: "hsl(224 71.4% 4.1%)",
         foreground: "#f1f5f9",
         caret: "#f87171",
         selection: "#f87171",
         selectionMatch: "#f87171",
         lineHighlight: "hsl(0, 0%, 100% / .1)",
-        gutterBackground: "hsl(222.2 84% 4.9%)",
+        gutterBackground: "hsl(224 71.4% 4.1%)",
         gutterForeground: "#f1f5f9",
     };
 
@@ -78,7 +78,7 @@ export default function Editor() {
 
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
-            <ResizablePanel defaultSize={70}>
+            <ResizablePanel defaultSize={60}>
                 <ResizablePanelGroup direction="horizontal">
                     <ResizablePanel defaultSize={32}>
                         <CodeMirror className='codeScrollbar' maxHeight='100vh' minHeight='400px' height='100%' theme={vscodeDarkInit({
@@ -102,7 +102,7 @@ export default function Editor() {
 
             <ResizableHandle withHandle />
 
-            <ResizablePanel defaultSize={30} className='p-0 m-0'>
+            <ResizablePanel defaultSize={40} className='p-0 m-0'>
                 <iframe className={'h-full w-full p-0 m-0 bg-white'} srcDoc={srcDocsT} />
             </ResizablePanel>
             <Footer onClear={() => { setHtmlValue(""); setCssValue(""); setJsValue(""); setSrcDocs(""); }} >
