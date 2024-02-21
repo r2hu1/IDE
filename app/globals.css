@@ -39,7 +39,7 @@
   }
 
   .codeScrollbar {
-    @apply border-none outline-none text-base;
+    @apply border-none outline-none text-base text-wrap;
   }
 
   .codeScrollbar ::-webkit-scrollbar {
