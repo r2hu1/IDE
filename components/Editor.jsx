@@ -59,7 +59,6 @@ export default function Editor() {
     const [isCompiled, setIsCompiled] = useState(false);
     useEffect(() => {
         setIsCompiled(false);
-        setTimeout(() => {
             setSrcDocs(`
             <!DOCTYPE html>
             <html lang="en">
@@ -73,7 +72,6 @@ export default function Editor() {
             </html>
             `);
             setIsCompiled(true);
-        }, 1000);
     }, [htmlValue, cssValue, jsValue]);
 
     return (
