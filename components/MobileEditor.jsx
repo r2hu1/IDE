@@ -63,7 +63,7 @@ export default function MobileEditor() {
         className: 'codeScrollbar',
         maxHeight: '100vh',
         minHeight: '400px',
-        height: '100%',
+        height: 'calc(100vh - 100px)',
         theme: vscodeDarkInit({ settings: darkTheme }),
     };
 
