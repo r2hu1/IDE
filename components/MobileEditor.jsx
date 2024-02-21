@@ -61,7 +61,9 @@ export default function MobileEditor() {
 
     const [srcDocsT, setSrcDocs] = useState(``);
     const [isCompiled, setIsCompiled] = useState(true);
-        
+    
+    useEffect(() => {
+        setIsCompiled(false);
             setSrcDocs(`
             <!DOCTYPE html>
             <html lang="en">
@@ -74,7 +76,8 @@ export default function MobileEditor() {
               </body>
             </html>
             `);
-
+setIsCompiled(true);
+    }, [htmlValue, cssValue, jsValue]);
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
             <div className="flex py-2 px-3 md:px-20 items-center justify-between">
