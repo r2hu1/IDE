@@ -60,10 +60,8 @@ export default function MobileEditor() {
     }
 
     const [srcDocsT, setSrcDocs] = useState(``);
-    const [isCompiled, setIsCompiled] = useState(false);
-    useEffect(() => {
-        setIsCompiled(false);
-        setTimeout(() => {
+    const [isCompiled, setIsCompiled] = useState(true);
+        
             setSrcDocs(`
             <!DOCTYPE html>
             <html lang="en">
@@ -76,9 +74,6 @@ export default function MobileEditor() {
               </body>
             </html>
             `);
-            setIsCompiled(true);
-        }, 1000);
-    }, [htmlValue, cssValue, jsValue]);
 
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
