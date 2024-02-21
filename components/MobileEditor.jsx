@@ -60,7 +60,7 @@ export default function MobileEditor() {
     }
 
     const [srcDocsT, setSrcDocs] = useState(``);
-    const [isCompiled, setIsCompiled] = useState(true);
+    const [isCompiled, setIsCompiled] = useState(false);
     
     useEffect(() => {
         setIsCompiled(false);
