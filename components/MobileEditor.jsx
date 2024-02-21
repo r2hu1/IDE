@@ -1,8 +1,5 @@
 "use client";
 import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
-import { html } from '@codemirror/lang-html';
-import { css } from '@codemirror/lang-css';
 import {
     ResizableHandle,
     ResizablePanel,
@@ -15,20 +12,12 @@ import { Button } from './ui/button';
 import { Check, Loader2, Save } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { toast } from 'sonner';
+import { dark } from '@/theme/dark';
+import { download } from '@/lib/download';
+import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 
 
 export default function MobileEditor() {
-    const darkTheme = {
-        background: "hsl(224 71.4% 4.1%)",
-        foreground: "hsl(210 20% 98%)",
-        caret: "hsl(210 20% 98%)",
-        selection: "hsl(215 27.9% 16.9%)",
-        selectionMatch: "hsl(215 27.9% 16.9%)",
-        lineHighlight: "transparent",
-        gutterBackground: "hsl(222.2 84% 4.9%)",
-        gutterForeground: "hsl(210 20% 98%)",
-    };
-
     const [htmlValue, setHtmlValue] = useState(`<button onClick="handleClick()">
   Click Me
 </button>`);
@@ -45,23 +34,16 @@ export default function MobileEditor() {
   alert("button clicked");
 }`);
     const [currTab, setCurrTab] = useState("html");
+    const [srcDocsT, setSrcDocs] = useState(``);
+    const [isCompiled, setIsCompiled] = useState(false);
 
     const handleDownload = () => {
-        const blob = new Blob([srcDocsT], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'i-de_index.html';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        download({ src: srcDocsT });
         toast.success("Downloaded!");
     }
 
-    const [srcDocsT, setSrcDocs] = useState(``);
-    const [isCompiled, setIsCompiled] = useState(false);
-    
+    const darkTheme = dark;
+
     useEffect(() => {
         setIsCompiled(false);
             setSrcDocs(`
@@ -94,15 +76,15 @@ setIsCompiled(true);
                 {currTab == "html" ? (
                     <CodeMirror className='codeScrollbar' maxHeight='100vh' minHeight='400px' height='100%' theme={vscodeDarkInit({
                         settings: darkTheme
-                    })} value={htmlValue} placeholder="HTML" onChange={(val, viewUpdate) => { setHtmlValue(val); }} extensions={[html()]} />
+                    })} value={htmlValue} placeholder="HTML" onChange={(val, viewUpdate) => { setHtmlValue(val); }} extensions={[loadLanguage("html")]} />
                 ) : currTab == "css" ? (
                     <CodeMirror className='codeScrollbar' maxHeight='100vh' minHeight='400px' height='100%' theme={vscodeDarkInit({
                         settings: darkTheme
-                    })} value={cssValue} placeholder="CSS" onChange={(val, viewUpdate) => { setCssValue(val); }} extensions={[css()]} />
+                    })} value={cssValue} placeholder="CSS" onChange={(val, viewUpdate) => { setCssValue(val); }} extensions={[loadLanguage("css")]} />
                 ) : (
                     <CodeMirror className='codeScrollbar' maxHeight='100vh' minHeight='400px' height='100%' theme={vscodeDarkInit({
                         settings: darkTheme
-                    })} value={jsValue} placeholder="JavaScript" onChange={(val, viewUpdate) => { setJsValue(val); }} extensions={[javascript({ jsx: true })]} />
+                    })} value={jsValue} placeholder="JavaScript" onChange={(val, viewUpdate) => { setJsValue(val); }} extensions={[loadLanguage("javascript")]} />
                 )}
             </ResizablePanel>
 
