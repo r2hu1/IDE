@@ -37,16 +37,4 @@
   body {
     @apply bg-background text-foreground;
   }
-
-  .codeScrollbar {
-    @apply border-none outline-none text-base;
-  }
-
-  .codeScrollbar ::-webkit-scrollbar {
-    @apply w-1 h-1 rounded-md;
-  }
-
-  .codeScrollbar ::-webkit-scrollbar-thumb {
-    @apply bg-accent rounded-full;
-  }
 }

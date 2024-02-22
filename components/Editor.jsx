@@ -1,6 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
+import { useState, useEffect, Fragment } from 'react';
 import { download } from '@/lib/download';
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import CodeMirror from '@uiw/react-codemirror';
@@ -8,8 +7,10 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import Footer from '@/components/Footer';
 import { Button } from './ui/button';
 import { Check, Loader2, Save } from 'lucide-react';
-import { dark } from '@/theme/dark';
 import { toast } from 'sonner';
+import { cmOptions } from '@/lib/cmOptions';
+import { Scrollbar } from '@radix-ui/react-scroll-area';
+import { ScrollArea, ScrollBar } from './ui/scroll-area';
 
 export default function Editor() {
     const [htmlValue, setHtmlValue] = useState(`<button onClick="handleClick()">
@@ -30,7 +31,6 @@ export default function Editor() {
     const [srcDocsT, setSrcDocs] = useState('');
     const [isCompiled, setIsCompiled] = useState(false);
 
-    const darkTheme = dark;
 
     useEffect(() => {
         setIsCompiled(false);
@@ -53,36 +53,34 @@ export default function Editor() {
         toast.success("Downloaded!");
     }
 
-    const cmOptions = {
-        className: 'codeScrollbar',
-        maxHeight: '100vh',
-        minHeight: '400px',
-        height: 'calc(100vh - 60px)',
-        theme: vscodeDarkInit({ settings: darkTheme }),
-    };
-
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
             <ResizablePanel defaultSize={60}>
                 <ResizablePanelGroup direction="horizontal">
                     {['html', 'css', 'javascript'].map((type) => (
-                        <React.Fragment key={type}>
+                        <Fragment key={type}>
                             <ResizablePanel defaultSize={32}>
-                                <CodeMirror
-                                    {...cmOptions}
-                                    value={type === 'html' ? htmlValue : (type === 'css' ? cssValue : jsValue)}
-                                    placeholder={type.toUpperCase()}
-                                    onChange={(val, viewUpdate) => {
-                                        if (type === 'html') setHtmlValue(val);
-                                        else if (type === 'css') setCssValue(val);
-                                        else setJsValue(val);
-                                    }}
-                                    extensions={[loadLanguage(type)]}
-                                />
+                                <ScrollArea className="h-full w-full">
+                                    <ScrollArea className="h-full w-full">
+                                        <CodeMirror
+                                            {...cmOptions}
+                                            value={type === 'html' ? htmlValue : (type === 'css' ? cssValue : jsValue)}
+                                            placeholder={type.toUpperCase()}
+                                            onChange={(val, viewUpdate) => {
+                                                if (type === 'html') setHtmlValue(val);
+                                                else if (type === 'css') setCssValue(val);
+                                                else setJsValue(val);
+                                            }}
+                                            extensions={[loadLanguage(type)]}
+                                        />
+                                    </ScrollArea>
+                                    <ScrollBar orientation="horizontal" />
+                                </ScrollArea>
                             </ResizablePanel>
                             <ResizableHandle withHandle />
-                        </React.Fragment>
+                        </Fragment>
                     ))}
+
                 </ResizablePanelGroup>
             </ResizablePanel>
 

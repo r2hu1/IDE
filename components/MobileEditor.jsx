@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from 'sonner';
-import { dark } from '@/theme/dark';
 import { download } from '@/lib/download';
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import CodeMirror from '@uiw/react-codemirror';
@@ -14,7 +13,8 @@ import {
 import Footer from '@/components/Footer';
 import { Button } from './ui/button';
 import { Check, Loader2, Save } from 'lucide-react';
-import { vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { cmOptions } from '@/lib/cmOptions';
 
 export default function MobileEditor() {
     const [htmlValue, setHtmlValue] = useState(`<button onClick="handleClick()">
@@ -36,7 +36,6 @@ export default function MobileEditor() {
     const [srcDocsT, setSrcDocs] = useState(``);
     const [isCompiled, setIsCompiled] = useState(false);
 
-    const darkTheme = dark;
 
     useEffect(() => {
         setIsCompiled(false);
@@ -59,14 +58,6 @@ export default function MobileEditor() {
         toast.success("Downloaded!");
     }
 
-    const cmOptions = {
-        className: 'codeScrollbar',
-        maxHeight: '100vh',
-        minHeight: '400px',
-        height: 'calc(100vh - 100px)',
-        theme: vscodeDarkInit({ settings: darkTheme }),
-    };
-
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
             <div className="flex py-2 px-3 md:px-20 items-center justify-between">
@@ -80,7 +71,12 @@ export default function MobileEditor() {
                 </div>
             </div>
             <ResizablePanel defaultSize={60}>
-                <CodeMirror value={currTab === "html" ? htmlValue : (currTab === "css" ? cssValue : jsValue)} placeholder={currTab.toUpperCase()} onChange={(val, viewUpdate) => { currTab === "html" ? setHtmlValue(val) : (currTab === "css" ? setCssValue(val) : setJsValue(val)); }} extensions={[loadLanguage(currTab)]} {...cmOptions} />
+                <ScrollArea className="h-full w-full">
+                    <ScrollArea className="h-full w-full">
+                        <CodeMirror value={currTab === "html" ? htmlValue : (currTab === "css" ? cssValue : jsValue)} placeholder={currTab.toUpperCase()} onChange={(val, viewUpdate) => { currTab === "html" ? setHtmlValue(val) : (currTab === "css" ? setCssValue(val) : setJsValue(val)); }} extensions={[loadLanguage(currTab)]} {...cmOptions} />
+                    </ScrollArea>
+                    <ScrollBar orientation="horizontal" />
+                </ScrollArea>
             </ResizablePanel>
 
             <ResizableHandle withHandle />
