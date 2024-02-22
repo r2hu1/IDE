@@ -58,7 +58,7 @@ export default function Editor() {
                                             {...cmOptions}
                                             value={type === 'html' ? html : (type === 'css' ? css : js)}
                                             placeholder={type.toUpperCase()}
-                                            onChange={(val, viewUpdate) => {
+                                            onChange={(val) => {
                                                 if (type === 'html') setHtmlValue(val);
                                                 else if (type === 'css') setCssValue(val);
                                                 else setJsValue(val);

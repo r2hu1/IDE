@@ -33,7 +33,7 @@ export default function MobileEditor() {
         toast.success("Downloaded!");
     }
 
-    
+
     useEffect(() => {
         setIsCompiled(false);
         setCodesValue(`
@@ -54,9 +54,9 @@ export default function MobileEditor() {
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
             <div className="flex py-2 px-3 md:px-20 items-center justify-between">
                 <ToggleGroup size="sm" type="single" defaultValue="html" onValueChange={setCurrTab}>
-                    <ToggleGroupItem value="html">HTML</ToggleGroupItem>
-                    <ToggleGroupItem value="css">CSS</ToggleGroupItem>
-                    <ToggleGroupItem value="javascript">JavaScript</ToggleGroupItem>
+                    <ToggleGroupItem disabled={currTab === "html"} value="html">HTML</ToggleGroupItem>
+                    <ToggleGroupItem disabled={currTab === "css"} value="css">CSS</ToggleGroupItem>
+                    <ToggleGroupItem disabled={currTab == "javascript"} value="javascript">JavaScript</ToggleGroupItem>
                 </ToggleGroup>
                 <div>
                     <Button size="icon" variant="secondary">{!isCompiled ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}</Button>
@@ -65,7 +65,13 @@ export default function MobileEditor() {
             <ResizablePanel defaultSize={60}>
                 <ScrollArea className="h-full w-full">
                     <ScrollArea className="h-full w-full">
-                        <CodeMirror value={currTab === "html" ? html : (currTab === "css" ? css : js)} placeholder={currTab.toUpperCase()} onChange={(val, viewUpdate) => { currTab === "html" ? setHtmlValue(val) : (currTab === "css" ? setCssValue(val) : setJsValue(val)); }} extensions={[loadLanguage(currTab)]} {...cmOptions} />
+                        <CodeMirror
+                            value={currTab === "html" ? html : (currTab === "css" ? css : js)}
+                            placeholder={currTab.toUpperCase()}
+                            onChange={(val) => { currTab === "html" ? setHtmlValue(val) : (currTab === "css" ? setCssValue(val) : setJsValue(val)); }}
+                            extensions={[loadLanguage(currTab)]}
+                            {...cmOptions}
+                        />
                     </ScrollArea>
                     <ScrollBar orientation="horizontal" />
                 </ScrollArea>
