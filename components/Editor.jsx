@@ -9,7 +9,6 @@ import { Button } from './ui/button';
 import { Check, Loader2, Save } from 'lucide-react';
 import { toast } from 'sonner';
 import { cmOptions } from '@/lib/cmOptions';
-import { Scrollbar } from '@radix-ui/react-scroll-area';
 import { ScrollArea, ScrollBar } from './ui/scroll-area';
 
 export default function Editor() {
