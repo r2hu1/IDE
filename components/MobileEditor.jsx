@@ -15,48 +15,40 @@ import { Button } from './ui/button';
 import { Check, Loader2, Save } from 'lucide-react';
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cmOptions } from '@/lib/cmOptions';
+import useCodes from '@/hooks/useCodes';
+import useHtml from '@/hooks/useHtml';
+import useCss from '@/hooks/useCss';
+import useJs from '@/hooks/useJs';
 
 export default function MobileEditor() {
-    const [htmlValue, setHtmlValue] = useState(`<button onClick="handleClick()">
-    Click Me
-</button>`);
-    const [cssValue, setCssValue] = useState(`button{
-    height: 45px; 
-    border: none; 
-    padding: 0 30px; 
-    border-radius: 8px; 
-    margin: 10px; 
-    color: #fff; 
-    background: #525fe1; 
-}`);
-    const [jsValue, setJsValue] = useState(`const handleClick = () => {
-    alert("button clicked"); 
-}`);
+    const [html, setHtmlValue] = useHtml("");
+    const [css, setCssValue] = useCss("");
+    const [js, setJsValue] = useJs("");
     const [currTab, setCurrTab] = useState("html");
-    const [srcDocsT, setSrcDocs] = useState(``);
     const [isCompiled, setIsCompiled] = useState(false);
-
-
-    useEffect(() => {
-        setIsCompiled(false);
-        setSrcDocs(`
-            <!DOCTYPE html>
-            <html lang="en">
-              <head></head>
-              <style>* { margin: 0; padding: 0; box-sizing: border-box; }${cssValue}</style>
-              <body>
-                <div>${htmlValue}</div>
-                <script>${jsValue}</script>
-              </body>
-            </html>
-        `);
-        setIsCompiled(true);
-    }, [htmlValue, cssValue, jsValue]);
+    const [code, setCodesValue] = useCodes();
 
     const handleDownload = () => {
         download({ src: srcDocsT });
         toast.success("Downloaded!");
     }
+
+    
+    useEffect(() => {
+        setIsCompiled(false);
+        setCodesValue(`
+        <!DOCTYPE html>
+        <html lang="en">
+          <head></head>
+          <style>* { margin: 0; padding: 0; box-sizing: border-box; }${css}</style>
+          <body>
+            <div>${html}</div>
+            <script>${js}</script>
+          </body>
+        </html>
+    `);
+        setIsCompiled(true);
+    }, [html, css, js]);
 
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
@@ -73,7 +65,7 @@ export default function MobileEditor() {
             <ResizablePanel defaultSize={60}>
                 <ScrollArea className="h-full w-full">
                     <ScrollArea className="h-full w-full">
-                        <CodeMirror value={currTab === "html" ? htmlValue : (currTab === "css" ? cssValue : jsValue)} placeholder={currTab.toUpperCase()} onChange={(val, viewUpdate) => { currTab === "html" ? setHtmlValue(val) : (currTab === "css" ? setCssValue(val) : setJsValue(val)); }} extensions={[loadLanguage(currTab)]} {...cmOptions} />
+                        <CodeMirror value={currTab === "html" ? html : (currTab === "css" ? css : js)} placeholder={currTab.toUpperCase()} onChange={(val, viewUpdate) => { currTab === "html" ? setHtmlValue(val) : (currTab === "css" ? setCssValue(val) : setJsValue(val)); }} extensions={[loadLanguage(currTab)]} {...cmOptions} />
                     </ScrollArea>
                     <ScrollBar orientation="horizontal" />
                 </ScrollArea>
@@ -82,9 +74,9 @@ export default function MobileEditor() {
             <ResizableHandle withHandle />
 
             <ResizablePanel defaultSize={40} className='p-0 m-0'>
-                <iframe className={'h-full w-full p-0 m-0 bg-white'} srcDoc={srcDocsT} />
+                <iframe className={'h-full w-full p-0 m-0 bg-white'} srcDoc={code} />
             </ResizablePanel>
-            <Footer onClear={() => { setHtmlValue(""); setCssValue(""); setJsValue(""); setSrcDocs(""); }} >
+            <Footer onClear={() => { setHtmlValue(""); setCssValue(""); setJsValue(""); setCodesValue(""); }} >
                 <Button size="icon" variant="secondary" onClick={handleDownload}><Save className="h-4 w-4" /></Button>
             </Footer>
         </ResizablePanelGroup>
