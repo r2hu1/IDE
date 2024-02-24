@@ -19,14 +19,7 @@ import useCodes from '@/hooks/useCodes';
 import useHtml from '@/hooks/useHtml';
 import useCss from '@/hooks/useCss';
 import useJs from '@/hooks/useJs';
-
-const debounced = (fn, delay) => {
-    let timeoutId;
-    return (...args) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => fn(...args), delay);
-    };
-};
+import { debounced } from '@/lib/debounced';
 
 export default function MobileEditor() {
     const [html, setHtmlValue] = useHtml("");
@@ -56,7 +49,7 @@ export default function MobileEditor() {
             </html>
             `);
             setIsCompiled(true);
-        }, 500),
+        }, 0),
         [html, css, js]
     );
 
