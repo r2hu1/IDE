@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { download } from '@/lib/download';
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import CodeMirror from '@uiw/react-codemirror';
@@ -15,7 +15,9 @@ import useHtml from '@/hooks/useHtml';
 import useCss from '@/hooks/useCss';
 import useJs from '@/hooks/useJs';
 
-export default function Editor() {
+const codeTypes = ['html', 'css', 'javascript'];
+
+const Editor = () => {
     const [html, setHtmlValue] = useHtml("");
     const [css, setCssValue] = useCss("");
     const [js, setJsValue] = useJs("");
@@ -24,55 +26,69 @@ export default function Editor() {
     const [code, setCodesValue] = useCodes();
 
     const handleDownload = () => {
-        download({ src: srcDocsT });
+        download({ src: code });
         toast.success("Downloaded!");
-    }
+    };
 
-
-    useEffect(() => {
+    const compileCode = useCallback(() => {
         setIsCompiled(false);
         setCodesValue(`
-        <!DOCTYPE html>
-        <html lang="en">
-          <head></head>
-          <style>* { margin: 0; padding: 0; box-sizing: border-box; }${css}</style>
-          <body>
-            <div>${html}</div>
-            <script>${js}</script>
-          </body>
-        </html>
-    `);
+            <!DOCTYPE html>
+            <html lang="en">
+                <head></head>
+                <style>* { margin: 0; padding: 0; box-sizing: border-box; }${css}</style>
+                <body>
+                    <div>${html}</div>
+                    <script>${js}</script>
+                </body>
+            </html>
+        `);
         setIsCompiled(true);
-    }, [html, css, js]);
+    }, [html, css, js, setCodesValue]);
+
+    useEffect(() => {
+        compileCode();
+    }, [compileCode]);
+
+    const handleChange = useCallback(
+        (val, type) => {
+            if (type === 'html') setHtmlValue(val);
+            else if (type === 'css') setCssValue(val);
+            else setJsValue(val);
+        },
+        [setHtmlValue, setCssValue, setJsValue]
+    );
+
+    const renderCodePanel = useCallback(
+        (type) => (
+            <ResizablePanel key={type} defaultSize={32}>
+                <ScrollArea className="h-full w-full">
+                    <ScrollArea className="h-full w-full">
+                        <CodeMirror
+                            {...cmOptions}
+                            value={type === 'html' ? html : (type === 'css' ? css : js)}
+                            placeholder={type.toUpperCase()}
+                            onChange={(val) => handleChange(val, type)}
+                            extensions={[loadLanguage(type)]}
+                        />
+                    </ScrollArea>
+                    <ScrollBar orientation="horizontal" />
+                </ScrollArea>
+            </ResizablePanel>
+        ),
+        [html, css, js, handleChange]
+    );
 
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
             <ResizablePanel defaultSize={60}>
                 <ResizablePanelGroup direction="horizontal">
-                    {['html', 'css', 'javascript'].map((type) => (
-                        <Fragment key={type}>
-                            <ResizablePanel defaultSize={32}>
-                                <ScrollArea className="h-full w-full">
-                                    <ScrollArea className="h-full w-full">
-                                        <CodeMirror
-                                            {...cmOptions}
-                                            value={type === 'html' ? html : (type === 'css' ? css : js)}
-                                            placeholder={type.toUpperCase()}
-                                            onChange={(val) => {
-                                                if (type === 'html') setHtmlValue(val);
-                                                else if (type === 'css') setCssValue(val);
-                                                else setJsValue(val);
-                                            }}
-                                            extensions={[loadLanguage(type)]}
-                                        />
-                                    </ScrollArea>
-                                    <ScrollBar orientation="horizontal" />
-                                </ScrollArea>
-                            </ResizablePanel>
+                    {codeTypes.map((type) => (
+                        <React.Fragment key={type}>
+                            {renderCodePanel(type)}
                             <ResizableHandle withHandle />
-                        </Fragment>
+                        </React.Fragment>
                     ))}
-
                 </ResizablePanelGroup>
             </ResizablePanel>
 
@@ -86,5 +102,7 @@ export default function Editor() {
                 <Button size="icon" variant="secondary" onClick={handleDownload}><Save className="h-4 w-4" /></Button>
             </Footer>
         </ResizablePanelGroup>
-    )
+    );
 };
+
+export default Editor;

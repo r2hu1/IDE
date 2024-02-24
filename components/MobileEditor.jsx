@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from 'sonner';
 import { download } from '@/lib/download';
@@ -20,6 +20,14 @@ import useHtml from '@/hooks/useHtml';
 import useCss from '@/hooks/useCss';
 import useJs from '@/hooks/useJs';
 
+const debounced = (fn, delay) => {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn(...args), delay);
+    };
+};
+
 export default function MobileEditor() {
     const [html, setHtmlValue] = useHtml("");
     const [css, setCssValue] = useCss("");
@@ -31,24 +39,30 @@ export default function MobileEditor() {
     const handleDownload = () => {
         download({ src: srcDocsT });
         toast.success("Downloaded!");
-    }
+    };
 
+    const compileCode = useMemo(
+        () => debounced(() => {
+            setIsCompiled(false);
+            setCodesValue(`
+            <!DOCTYPE html>
+            <html lang="en">
+                <head></head>
+                <style>* { margin: 0; padding: 0; box-sizing: border-box; }${css}</style>
+                <body>
+                    <div>${html}</div>
+                    <script>${js}</script>
+                </body>
+            </html>
+            `);
+            setIsCompiled(true);
+        }, 500),
+        [html, css, js]
+    );
 
     useEffect(() => {
-        setIsCompiled(false);
-        setCodesValue(`
-        <!DOCTYPE html>
-        <html lang="en">
-          <head></head>
-          <style>* { margin: 0; padding: 0; box-sizing: border-box; }${css}</style>
-          <body>
-            <div>${html}</div>
-            <script>${js}</script>
-          </body>
-        </html>
-    `);
-        setIsCompiled(true);
-    }, [html, css, js]);
+        compileCode();
+    }, [compileCode]);
 
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
@@ -86,5 +100,5 @@ export default function MobileEditor() {
                 <Button size="icon" variant="secondary" onClick={handleDownload}><Save className="h-4 w-4" /></Button>
             </Footer>
         </ResizablePanelGroup>
-    )
-};
+    );
+}

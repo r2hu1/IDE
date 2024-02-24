@@ -2,7 +2,7 @@ const { useState } = require("react");
 
 const useJs = () => {
     const [js, setJs] = useState(`const handleClick = () => {
-    alert("button clicked"); 
+  alert("button clicked"); 
 }`);
 
     const setJsValue = (value) => {
