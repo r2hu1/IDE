@@ -21,7 +21,6 @@ const Editor = () => {
     const [html, setHtmlValue] = useHtml("");
     const [css, setCssValue] = useCss("");
     const [js, setJsValue] = useJs("");
-    const [currTab, setCurrTab] = useState("html");
     const [isCompiled, setIsCompiled] = useState(false);
     const [code, setCodesValue] = useCodes();
 
