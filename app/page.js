@@ -15,7 +15,7 @@ export default function Page() {
   return (
     <div>
       {!screenSize ? <Editor /> : <MobileEditor />}
-      {preload && (
+      {!screenSize && preload && (
         <div className="absolute h-full w-full z-50 bg-background flex items-center justify-center">
           <Loader2 className="h-6 w-6 animate-spin" />
         </div>
