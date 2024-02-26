@@ -1,15 +1,13 @@
+"use client";
 import Editor from "@/components/Editor";
 import MobileEditor from "@/components/MobileEditor";
+import useMediaQuery from '../hooks/useMediaQuery';
 
 export default function Page() {
+  const screenSize = useMediaQuery("768");
   return (
     <div>
-      <div className="hidden md:flex">
-        <Editor />
-      </div>
-      <div className="md:hidden flex">
-        <MobileEditor />
-      </div>
+      {!screenSize ? <Editor /> : <MobileEditor />}
     </div>
   )
 };
