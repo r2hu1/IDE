@@ -1,12 +1,12 @@
 "use client";
-import React, { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback, memo, Fragment } from 'react';
 import { download } from '@/lib/download';
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import CodeMirror from '@uiw/react-codemirror';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import Footer from '@/components/Footer';
 import { Button } from './ui/button';
-import { Check, Loader2, Save } from 'lucide-react';
+import { Save } from 'lucide-react';
 import { toast } from 'sonner';
 import { cmOptions } from '@/lib/cmOptions';
 import { ScrollArea, ScrollBar } from './ui/scroll-area';
@@ -21,16 +21,14 @@ const Editor = () => {
     const [html, setHtmlValue] = useHtml("");
     const [css, setCssValue] = useCss("");
     const [js, setJsValue] = useJs("");
-    const [isCompiled, setIsCompiled] = useState(false);
-    const [code, setCodesValue] = useCodes();
+    const [code, setCodesValue] = useCodes("");
 
-    const handleDownload = () => {
+    const handleDownload = useCallback(() => {
         download({ src: code });
         toast.success("Downloaded!");
-    };
+    }, [code]);
 
     const compileCode = useCallback(() => {
-        setIsCompiled(false);
         setCodesValue(`
             <!DOCTYPE html>
             <html lang="en">
@@ -42,51 +40,44 @@ const Editor = () => {
                 </body>
             </html>
         `);
-        setIsCompiled(true);
     }, [html, css, js, setCodesValue]);
 
     useEffect(() => {
         compileCode();
-    }, [compileCode]);
+    }, [html, css, js, compileCode]);
 
-    const handleChange = useCallback(
-        (val, type) => {
-            if (type === 'html') setHtmlValue(val);
-            else if (type === 'css') setCssValue(val);
-            else setJsValue(val);
-        },
-        [setHtmlValue, setCssValue, setJsValue]
-    );
+    const handleChange = useCallback((val, type) => {
+        if (type === 'html') setHtmlValue(val);
+        else if (type === 'css') setCssValue(val);
+        else setJsValue(val);
+    }, [setHtmlValue, setCssValue, setJsValue]);
 
-    const renderCodePanel = useCallback(
-        (type) => (
-            <ResizablePanel key={type} defaultSize={32}>
+    const renderCodePanel = useCallback((type) => (
+        <ResizablePanel key={type} defaultSize={32}>
+            <ScrollArea className="h-full w-full">
                 <ScrollArea className="h-full w-full">
-                    <ScrollArea className="h-full w-full">
-                        <CodeMirror
-                            {...cmOptions}
-                            value={type === 'html' ? html : (type === 'css' ? css : js)}
-                            placeholder={type.toUpperCase()}
-                            onChange={(val) => handleChange(val, type)}
-                            extensions={[loadLanguage(type)]}
-                        />
-                    </ScrollArea>
-                    <ScrollBar orientation="horizontal" />
+                    <CodeMirror
+                        {...cmOptions}
+                        value={type === 'html' ? html : (type === 'css' ? css : js)}
+                        placeholder={type.toUpperCase()}
+                        onChange={(val) => handleChange(val, type)}
+                        extensions={[loadLanguage(type)]}
+                    />
                 </ScrollArea>
-            </ResizablePanel>
-        ),
-        [html, css, js, handleChange]
-    );
+                <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+        </ResizablePanel>
+    ), [html, css, js, handleChange]);
 
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
             <ResizablePanel defaultSize={60}>
                 <ResizablePanelGroup direction="horizontal">
                     {codeTypes.map((type) => (
-                        <React.Fragment key={type}>
+                        <Fragment key={type}>
                             {renderCodePanel(type)}
                             <ResizableHandle withHandle />
-                        </React.Fragment>
+                        </Fragment>
                     ))}
                 </ResizablePanelGroup>
             </ResizablePanel>
@@ -96,12 +87,11 @@ const Editor = () => {
             <ResizablePanel defaultSize={40} className='p-0 m-0'>
                 <iframe className={'h-full w-full p-0 m-0 bg-white'} srcDoc={code} />
             </ResizablePanel>
-            <Footer onClear={() => { setHtmlValue(""); setCssValue(""); setJsValue(""); setSrcDocs(""); }} >
-                <Button size="icon" variant="secondary">{!isCompiled ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}</Button>
+            <Footer onClear={() => { setHtmlValue(""); setCssValue(""); setJsValue(""); setCodesValue(""); }} >
                 <Button size="icon" variant="secondary" onClick={handleDownload}><Save className="h-4 w-4" /></Button>
             </Footer>
         </ResizablePanelGroup>
     );
 };
 
-export default Editor;
+export default memo(Editor);
