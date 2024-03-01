@@ -28,4 +28,4 @@ A lightweight and minimalistic html, css, and javascript editor and compiler bui
 
 ## Deployed Site
 
-[IDE](https://i-de.vercel.app/)
+[Click-Here](https://i-de.vercel.app/)
