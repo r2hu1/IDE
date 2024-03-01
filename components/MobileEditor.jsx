@@ -29,7 +29,7 @@ function MobileEditor() {
     const [code, setCodesValue] = useCodes();
 
     const handleDownload = useCallback(() => {
-        download({ src: srcDocsT });
+        download({ src: code });
         toast.success("Downloaded!");
     }, []);
 
