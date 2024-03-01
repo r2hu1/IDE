@@ -73,12 +73,11 @@ const Editor = () => {
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
             <ResizablePanel defaultSize={60}>
                 <ResizablePanelGroup direction="horizontal">
-                    {codeTypes.map((type) => (
-                        <Fragment key={type}>
-                            {renderCodePanel(type)}
-                            <ResizableHandle withHandle />
-                        </Fragment>
-                    ))}
+                        {renderCodePanel("html")}
+                        <ResizableHandle withHandle />
+                        {renderCodePanel("css")}
+                        <ResizableHandle withHandle />
+                        {renderCodePanel("javascript")}
                 </ResizablePanelGroup>
             </ResizablePanel>
 
