@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useCallback, memo, Fragment, useContext } from 'react';
+import { useEffect, useCallback, memo, Fragment, useContext, useMemo } from 'react';
 import { download } from '@/lib/download';
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import CodeMirror from '@uiw/react-codemirror';
@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { cmOptions } from '@/lib/cmOptions';
 import { ScrollArea, ScrollBar } from './ui/scroll-area';
 import { CodeContext } from '@/app/page';
+import { debounced } from '@/lib/debounced';
 
 const codeTypes = ['html', 'css', 'javascript'];
 
@@ -25,9 +26,12 @@ const Editor = () => {
         toast.success("Downloaded!");
     }, [values.codes]);
 
-    const compileCode = useCallback(() => {
-        values.setCodes(`<!DOCTYPE html><html lang="en"><head></head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style><body><div>${codeH.html}</div><script>${codeJ.js}</script></body></html>`);
-    }, [codeH.html, codeH.css, codeJ.js, values.setCodes]);
+    const compileCode = useMemo(
+        () => debounced(() => {
+            values.setCodes(`<!DOCTYPE html><html lang="en"><head></head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style><body><div>${codeH.html}</div><script>${codeJ.js}</script></body></html>`);
+        }, 200),
+        [codeH.html, codeC.css, codeJ.js, values.setCodes]
+    );
 
     useEffect(() => {
         compileCode();

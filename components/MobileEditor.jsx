@@ -33,7 +33,7 @@ function MobileEditor() {
     const compileCode = useMemo(
         () => debounced(() => {
             values.setCodes(`<!DOCTYPE html><html lang="en"><head></head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style><body><div>${codeH.html}</div><script>${codeJ.js}</script></body></html>`);
-        }, 0),
+        }, 200),
         [codeH.html, codeC.css, codeJ.js, values.setCodes]
     );
 
