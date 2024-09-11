@@ -43,7 +43,7 @@ function MobileEditor() {
 
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
-            <div className="flex py-2 px-3 md:px-20 items-center justify-between">
+            <div className="flex py-2 px-2 md:px-20 items-center justify-between">
                 <ToggleGroup size="sm" type="single" defaultValue={currTab} onValueChange={setCurrTab}>
                     <ToggleGroupItem disabled={currTab === "html"} value="html">HTML</ToggleGroupItem>
                     <ToggleGroupItem disabled={currTab === "css"} value="css">CSS</ToggleGroupItem>
