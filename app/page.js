@@ -18,14 +18,17 @@ export default function Page() {
   useEffect(() => {
     setPreload(false);
     const preventDefaultSave = (e) => {
-      if (e.key === "s" && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+      if ((e.key === "s" && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) || e.button === 2) {
         e.preventDefault();
       }
     };
     document.addEventListener("keydown", preventDefaultSave, false);
+    document.addEventListener("contextmenu", preventDefaultSave, false);
     return () => {
       document.removeEventListener("keydown", preventDefaultSave, false);
+      document.removeEventListener("contextmenu", preventDefaultSave, false);
     };
+
   }, []);
 
   return (
