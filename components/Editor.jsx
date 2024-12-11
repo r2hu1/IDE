@@ -70,7 +70,7 @@ const Editor = () => {
                 </div>
             </div>
             <ResizablePanelGroup direction="horizontal">
-                <ResizablePanel minSize={20}>
+                <ResizablePanel minSize={20} defaultSize={50}>
                     <ScrollArea className="h-[calc(100vh-57px)] w-full">
                         <ScrollArea>
                             {renderCodePanel(currTab)}
@@ -80,7 +80,7 @@ const Editor = () => {
                     </ScrollArea>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
-                <ResizablePanel minSize={20}>
+                <ResizablePanel minSize={20} defaultSize={50}>
                     <iframe className={'h-[calc(100vh-57px)] w-full p-0 m-0 bg-white'} srcDoc={values.codes} />
                 </ResizablePanel>
             </ResizablePanelGroup>
