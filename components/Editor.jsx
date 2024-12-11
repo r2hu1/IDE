@@ -71,12 +71,12 @@ const Editor = () => {
             </div>
             <ResizablePanelGroup direction="horizontal">
                 <ResizablePanel minSize={20} defaultSize={50}>
-                    <ScrollArea className="h-[calc(100vh-57px)] w-full">
-                        <ScrollArea>
+                    <ScrollArea className="w-full">
+                        <ScrollArea className="h-[calc(100vh-57px)] w-full">
                             {renderCodePanel(currTab)}
-                            <ScrollBar/>
+                            <ScrollBar orientation="vertical" />
                         </ScrollArea>
-                        <ScrollBar orientation="vertical" />
+                        <ScrollBar orientation="horizontal" />
                     </ScrollArea>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
