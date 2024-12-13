@@ -6,7 +6,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import Footer from '@/components/Footer';
 import { Button } from './ui/button';
-import { GitFork, Save, Star } from 'lucide-react';
+import { Check, CheckCircle2, GitFork, Loader, Save, Star } from 'lucide-react';
 import { toast } from 'sonner';
 import { cmOptions } from '@/lib/cmOptions';
 import { ScrollArea, ScrollBar } from './ui/scroll-area';
@@ -22,6 +22,7 @@ const Editor = () => {
     const codeJ = useContext(CodeContext);
     const values = useContext(CodeContext);
     const [currTab, setCurrTab] = useState('html');
+    const [isCompiling, setIsCompiling] = useState(null);
 
     const handleDownload = useCallback(() => {
         download({ src: values.codes });
@@ -30,8 +31,10 @@ const Editor = () => {
 
     const compileCode = useMemo(
         () => debounced(() => {
+            setIsCompiling(true);
             values.setCodes(`<!DOCTYPE html><html lang="en"><head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style></head><body><div>${codeH.html}</div><script>${codeJ.js}</script></body></html>`);
-        }, 200),
+            setIsCompiling(false);
+        }, 300),
         [codeH.html, codeC.css, codeJ.js, values.setCodes]
     );
 
@@ -56,7 +59,12 @@ const Editor = () => {
     ), [codeH.html, codeC.css, codeJ.js, handleChange]);
 
     return (
-        <div>
+        <div className='relative'>
+            <div className='absolute bottom-4 right-4 bg-background rounded-full py-2 px-2 group transition-all cursor-pointer'>
+                {!isCompiling ? (<div className='flex items-center justify-center gap-1'><span className='text-xs transition hidden group-hover:block'>Compiled</span> <CheckCircle2 className="h-3.5 w-3.5" /></div>) :
+                    (<div className='flex items-center justify-center gap-1'><span className='text-xs transition hidden group-hover:block'>Compiling</span> <Loader className="h-3.5 w-3.5 animate-spin" /></div>)
+                }
+            </div>
             <div className="w-full flex items-center justify-between p-2.5 border-b">
                 <ToggleGroup className="w-fit" size="sm" type="single" defaultValue={currTab} onValueChange={setCurrTab}>
                     <ToggleGroupItem disabled={currTab === "html"} value="html">HTML</ToggleGroupItem>
