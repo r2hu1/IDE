@@ -28,7 +28,7 @@ const Editor = () => {
     const [isCompiling, setIsCompiling] = useState(null);
 
     const handleDownload = useCallback(() => {
-        download({ src: values.codes });
+        download({ src: `<!DOCTYPE html><html lang="en"><head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style></head><body><div>${codeH.html}</div><script>${codeJ.js}</script></body></html>` });
         toast.success("Downloaded!");
     }, [values.codes]);
 
@@ -37,7 +37,7 @@ const Editor = () => {
             localStorage.setItem('html', codeH.html);
             localStorage.setItem('css', codeC.css);
             localStorage.setItem('js', codeJ.js);
-            values.setCodes(`<!DOCTYPE html><html lang="en"><head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style></head><body><div>${codeH.html}</div><script>${codeJ.js}</script></body></html>`);
+            values.setCodes(`<!DOCTYPE html><html lang="en"><head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style></head><body><div>${codeH.html}</div><script>/*remove this code */ document.addEventListener('click', function(event) {const target = event.target;if (target.tagName === 'A') {event.preventDefault();const href = target.getAttribute('href');if (href && href.startsWith('#')) {const targetElement = document.querySelector(href);if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });} else if (href) {window.open(href, '_blank');}}}); /*remove this code */ ${codeJ.js}</script></body></html>`);
             setIsCompiling(false);
         }, 300),
         [codeH.html, codeC.css, codeJ.js, values.setCodes]
@@ -105,7 +105,7 @@ const Editor = () => {
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel minSize={25} defaultSize={25}>
-                    <iframe className={'h-[calc(100vh-57px)] w-full p-0 m-0 bg-white'}  srcDoc={values.codes} />
+                    <iframe className={'h-[calc(100vh-57px)] w-full p-0 m-0 bg-white'} srcDoc={values.codes} />
                 </ResizablePanel>
             </ResizablePanelGroup>
         </div>
