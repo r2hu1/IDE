@@ -31,6 +31,12 @@ export default function Page() {
 
   }, []);
 
+  useEffect(() => {
+    setHtml(localStorage.getItem("html") || "");
+    setCss(localStorage.getItem("css") || "");
+    setJs(localStorage.getItem("js") || "");
+  },[]);
+
   return (
     <>
       {preload && (
