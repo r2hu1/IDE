@@ -30,7 +30,7 @@ const Editor = () => {
 
     const compileCode = useMemo(
         () => debounced(() => {
-            values.setCodes(`<!DOCTYPE html><html lang="en"><head></head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style><body><div>${codeH.html}</div><script>${codeJ.js}</script></body></html>`);
+            values.setCodes(`<!DOCTYPE html><html lang="en"><head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style></head><body><div>${codeH.html}</div><script>${codeJ.js}</script></body></html>`);
         }, 200),
         [codeH.html, codeC.css, codeJ.js, values.setCodes]
     );
@@ -48,7 +48,6 @@ const Editor = () => {
     const renderCodePanel = useCallback((type) => (
         <CodeMirror
             {...cmOptions}
-            // className='w-full h-[calc(100vh-57px)]'
             value={type === 'html' ? codeH.html : (type === 'css' ? codeC.css : codeJ.js)}
             placeholder={`Write your ${type.toUpperCase()}`}
             onChange={(val) => handleChange(val, type)}
