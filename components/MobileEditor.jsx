@@ -32,7 +32,7 @@ function MobileEditor() {
 
     const compileCode = useMemo(
         () => debounced(() => {
-            values.setCodes(`<!DOCTYPE html><html lang="en"><head></head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style><body><div>${codeH.html}</div><script>${codeJ.js}</script></body></html>`);
+            values.setCodes(`<!DOCTYPE html><html lang="en"><head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style></head><body><div>${codeH.html}</div><script>${codeJ.js}</script></body></html>`);
         }, 200),
         [codeH.html, codeC.css, codeJ.js, values.setCodes]
     );
@@ -43,7 +43,7 @@ function MobileEditor() {
 
     return (
         <ResizablePanelGroup direction="vertical" className="absolute h-full w-full top-0 left-0 right-0">
-            <div className="flex py-2 px-2 md:px-20 items-center justify-between">
+            <div className="flex border-b py-2 px-2 md:px-20 items-center justify-between">
                 <ToggleGroup size="sm" type="single" defaultValue={currTab} onValueChange={setCurrTab}>
                     <ToggleGroupItem disabled={currTab === "html"} value="html">HTML</ToggleGroupItem>
                     <ToggleGroupItem disabled={currTab === "css"} value="css">CSS</ToggleGroupItem>
@@ -73,7 +73,7 @@ function MobileEditor() {
             <ResizablePanel defaultSize={40} className='p-0 m-0'>
                 <iframe className={'h-full w-full p-0 m-0 bg-white'} srcDoc={values.codes} />
             </ResizablePanel>
-            <Footer onClear={() => { setHtmlValue(""); setCssValue(""); setJsValue(""); values.setCodes(""); }} >
+            <Footer onClear={() => { values.setHtml(""); values.setCss(""); values.setJs(""); values.setCodes(""); }} >
                 <Button size="icon" variant="secondary" onClick={handleDownload}><Save className="h-4 w-4" /></Button>
             </Footer>
         </ResizablePanelGroup>
