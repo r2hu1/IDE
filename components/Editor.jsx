@@ -101,7 +101,7 @@ const Editor = () => {
                     <div className='relative w-full h-full'>
                         <div className='flex items-center border-b justify-center gap-2 py-1 px-2'>
                             <Button size="icon" variant="ghost" onClick={compileCode} className="p-0 h-7 !max-w-7">{isCompiling ? <Loader2 className='h-3.5 w-3.5 animate-spin' /> : <Play className="h-3.5 w-3.5" />}</Button>
-                            <div className='bg-secondary px-4 text-xs py-0.5 rounded-full w-full'>output:\\index.html\</div>
+                            <div className='bg-secondary px-4 text-xs py-0.5 rounded-full w-full text-gray-200'>output:\\index.html\</div>
                             <Button size="icon" variant="ghost" onClick={openInNewTab} className="p-0 h-7 !max-w-7"><ExternalLink className="h-3.5 w-3.5" /></Button>
                         </div>
                         <div className='absolute z-10 bottom-4 right-4 bg-background rounded-full py-2 px-2 group transition-all cursor-pointer'>
