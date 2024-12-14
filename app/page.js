@@ -8,8 +8,8 @@ import { download } from "@/lib/download";
 
 export const CodeContext = createContext(null);
 export default function Page() {
-  // const screenSize = useMediaQuery("768");
-  const screenSize = useMediaQuery("300");
+  const screenSize = useMediaQuery("768");
+  // const screenSize = useMediaQuery("300");
   const [preload, setPreload] = useState(true);
   const [codes, setCodes] = useState(null);
   const [html, setHtml] = useState("");
