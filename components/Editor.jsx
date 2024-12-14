@@ -40,13 +40,13 @@ const Editor = () => {
             values.setCodes(`<!DOCTYPE html><html lang="en"><head><style>* { margin: 0; padding: 0; box-sizing: border-box; }${codeC.css}</style></head><body><div>${codeH.html}</div><script>/*remove this code */ document.addEventListener('click', function(event) {const target = event.target;if (target.tagName === 'A') {event.preventDefault();const href = target.getAttribute('href');if (href && href.startsWith('#')) {const targetElement = document.querySelector(href);if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });} else if (href) {window.open(href, '_blank');}}}); /*remove this code */ ${codeJ.js}</script></body></html>`);
             setIsCompiling(false);
         }, 300),
-        [codeH.html, codeC.css, codeJ.js, values.setCodes]
+        [codeH.html, codeC.css, codeJ.js]
     );
 
     useEffect(() => {
         setIsCompiling(true);
         compileCode();
-    }, [codeH.html, codeH.css, codeJ.js, compileCode]);
+    }, [codeH.html, codeH.css, codeJ.js]);
 
     const handleChange = useCallback((val, type) => {
         if (type === 'html') codeH.setHtml(val);
