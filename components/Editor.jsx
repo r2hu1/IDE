@@ -8,7 +8,7 @@ import { FaHtml5 } from "react-icons/fa";
 import { BiSolidFileCss } from "react-icons/bi";
 import { IoLogoJavascript } from "react-icons/io5";
 import { Button } from './ui/button';
-import { CheckCircle2, Loader, Play, Save } from 'lucide-react';
+import { CheckCircle2, ExternalLink, Loader, Loader2, Play, Save } from 'lucide-react';
 import { toast } from 'sonner';
 import { cmOptions } from '@/lib/cmOptions';
 import { ScrollArea, ScrollBar } from './ui/scroll-area';
@@ -43,6 +43,12 @@ const Editor = () => {
         [codeH.html, codeC.css, codeJ.js]
     );
 
+    const openInNewTab = () => {
+        const blob = new Blob([values.codes], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+    };
+
     useEffect(() => {
         setIsCompiling(true);
         compileCode();
@@ -66,20 +72,7 @@ const Editor = () => {
     ), [codeH.html, codeC.css, codeJ.js, handleChange]);
 
     return (
-        <div className='relative'>
-            <div className='absolute bottom-4 right-4 bg-background rounded-full py-2 px-2 group transition-all cursor-pointer'>
-                {!isCompiling ? (
-                    <div className='flex items-center justify-center gap-2'>
-                        <span className='text-xs transition hidden group-hover:block'>Saved</span> <CheckCircle2 className="h-3.5 w-3.5" />
-                        <span className='text-xs transition hidden group-hover:block'>Compiled</span> <CheckCircle2 className="h-3.5 w-3.5" />
-                    </div>
-                ) : (
-                    <div className='flex items-center justify-center gap-2'>
-                        <span className='text-xs transition hidden group-hover:block'>Saving</span> <Loader className="h-3.5 w-3.5 animate-spin" />
-                        <span className='text-xs transition hidden group-hover:block'>Compiling</span> <Loader className="h-3.5 w-3.5 animate-spin" />
-                    </div>
-                )}
-            </div>
+        <div>
             <div className="relative w-full flex items-center justify-between overflow-hidden p-2.5 border-b">
                 <div className='absolute left-0 top-0 bg-purple-700 h-14 w-14 -z-10 blur-3xl'></div>
                 <ToggleGroup className="w-fit" size="sm" type="single" defaultValue={currTab} onValueChange={setCurrTab}>
@@ -105,7 +98,27 @@ const Editor = () => {
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel minSize={25} defaultSize={25}>
-                    <iframe className={'h-[calc(100vh-57px)] w-full p-0 m-0 bg-white'} srcDoc={values.codes} />
+                    <div className='relative w-full h-full'>
+                        <div className='flex items-center justify-center gap-2 py-1 px-2'>
+                            <Button size="icon" variant="ghost" onClick={compileCode} className="p-0 h-7 !min-w-7"><Loader2 className={`h-3.5 w-3.5 ${isCompiling && 'animate-spin'}`} /></Button>
+                            <div className='bg-secondary px-4 text-xs py-0.5 rounded-full w-full'>/</div>
+                            <Button size="icon" variant="ghost" onClick={openInNewTab} className="p-0 h-7 !min-w-7"><ExternalLink className="h-3.5 w-3.5" /></Button>
+                        </div>
+                        <div className='absolute z-10 bottom-4 right-4 bg-background rounded-full py-2 px-2 group transition-all cursor-pointer'>
+                            {!isCompiling ? (
+                                <div className='flex items-center justify-center gap-2'>
+                                    <span className='text-xs transition hidden group-hover:block'>Saved</span> <CheckCircle2 className="h-3.5 w-3.5" />
+                                    <span className='text-xs transition hidden group-hover:block'>Compiled</span> <CheckCircle2 className="h-3.5 w-3.5" />
+                                </div>
+                            ) : (
+                                <div className='flex items-center justify-center gap-2'>
+                                    <span className='text-xs transition hidden group-hover:block'>Saving</span> <Loader className="h-3.5 w-3.5 animate-spin" />
+                                    <span className='text-xs transition hidden group-hover:block'>Compiling</span> <Loader className="h-3.5 w-3.5 animate-spin" />
+                                </div>
+                            )}
+                        </div>
+                        <iframe className={'absolute h-full w-full p-0 m-0 bg-white'} srcDoc={values.codes} />
+                    </div>
                 </ResizablePanel>
             </ResizablePanelGroup>
         </div>
