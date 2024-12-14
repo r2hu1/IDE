@@ -97,9 +97,9 @@ const Editor = () => {
                     </ScrollArea>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
-                <ResizablePanel minSize={20} defaultSize={20}>
+                <ResizablePanel minSize={25} defaultSize={25}>
                     <div className='relative w-full h-full'>
-                        <div className='flex items-center justify-center gap-2 py-1 px-2'>
+                        <div className='flex items-center border-b justify-center gap-2 py-1 px-2'>
                             <Button size="icon" variant="ghost" onClick={compileCode} className="p-0 h-7 !max-w-7">{isCompiling ? <Loader2 className='h-3.5 w-3.5 animate-spin' /> : <Play className="h-3.5 w-3.5" />}</Button>
                             <div className='bg-secondary px-4 text-xs py-0.5 rounded-full w-full'>/</div>
                             <Button size="icon" variant="ghost" onClick={openInNewTab} className="p-0 h-7 !max-w-7"><ExternalLink className="h-3.5 w-3.5" /></Button>
@@ -117,7 +117,7 @@ const Editor = () => {
                                 </div>
                             )}
                         </div>
-                        <iframe className={'absolute h-full w-full p-0 m-0 bg-white'} srcDoc={values.codes} />
+                        <iframe className={'absolute h-[calc(100%-36px)] w-full p-0 m-0 bg-white'} srcDoc={values.codes} />
                     </div>
                 </ResizablePanel>
             </ResizablePanelGroup>
