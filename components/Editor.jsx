@@ -75,16 +75,14 @@ const Editor = () => {
         <div>
             <ResizablePanelGroup direction="horizontal" className="h-full absolute w-full">
                 <ResizablePanel minSize={28} defaultSize={75}>
-                    <div className="relative w-full flex items-center justify-between overflow-hidden p-2.5 border-b">
+                    <div className="relative w-full flex items-center justify-between gap-2 overflow-hidden p-2 border-b">
                         <div className='absolute left-0 top-0 bg-purple-700 h-14 w-14 -z-10 blur-3xl'></div>
                         <ToggleGroup className="w-fit" size="sm" type="single" defaultValue={currTab} onValueChange={setCurrTab}>
                             <ToggleGroupItem className="h-8 text-sm font-normal flex items-center justify-center gap-1" disabled={currTab === "html"} value="html"><FaHtml5 className="h-4 w-4" /> index.html</ToggleGroupItem>
                             <ToggleGroupItem className="h-8 text-sm font-normal flex items-center justify-center gap-1" disabled={currTab === "css"} value="css"><BiSolidFileCss className='h-4 w-4' />style.css</ToggleGroupItem>
                             <ToggleGroupItem className="h-8 text-sm font-normal flex items-center justify-center gap-1" disabled={currTab == "javascript"} value="javascript"><IoLogoJavascript className='h-4 w-4' />script.js</ToggleGroupItem>
                         </ToggleGroup>
-                        {/* <Button size="sm" onClick={compileCode} className="gap-1 from-red-200 to-purple-200 bg-gradient-to-br">Run <Play className="h-4 w-4" /></Button> */}
                         <div className='flex gap-1'>
-                            {/* <Button size="sm" onClick={() => { codeH.setHtml(""); codeC.setCss(""); codeJ.setJs(""); values.setCodes(""); }}>Clear</Button> */}
                             <Button size="icon" variant="secondary" className="p-0 h-8 !max-w-8" onClick={handleDownload}><Save className="h-4 w-4" /></Button>
                         </div>
                     </div>
@@ -99,7 +97,7 @@ const Editor = () => {
                 <ResizableHandle withHandle />
                 <ResizablePanel minSize={25} defaultSize={25}>
                     <div className='relative w-full h-full'>
-                        <div className='flex items-center border-b justify-center gap-2 py-1 px-2'>
+                        <div className='flex items-center shadow-sm justify-center gap-2 py-1 px-2'>
                             <Button size="icon" variant="ghost" onClick={compileCode} className="p-0 h-7 !max-w-7">{isCompiling ? <Loader2 className='h-3.5 w-3.5 animate-spin' /> : <Play className="h-3.5 w-3.5" />}</Button>
                             <div className='bg-secondary px-4 text-xs py-0.5 rounded-full w-full text-gray-200'>output:\\index.html\</div>
                             <Button size="icon" variant="ghost" onClick={openInNewTab} className="p-0 h-7 !max-w-7"><ExternalLink className="h-3.5 w-3.5" /></Button>
