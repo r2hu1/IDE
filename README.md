@@ -1,4 +1,4 @@
-# IDE
+# IDE (updated)
 
 A lightweight and minimalistic html, css, and javascript editor and compiler built using nextjs, tailwindcss and shadcn-ui.
 
